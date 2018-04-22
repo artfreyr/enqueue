@@ -13,19 +13,24 @@
 	<?php include '../resources/header.php'; ?>
 
 	<?php
+	// If browser has existing session, direct user to their list
 	if(isset($_SESSION['login_user'])){
 		header("Location: userlist.php");
 	}
 	
+	// On browser POST request, submit credentials
 	if ( $_SERVER[ "REQUEST_METHOD" ] == "POST" ) {
-
+		// Properly escapes SQL injection characters? And saves to variables
 		$myusername = mysqli_real_escape_string( $conn, $_POST[ 'username' ] );
 		$mypassword = mysqli_real_escape_string( $conn, $_POST[ 'password' ] );
 
+		// Forms SQL string to query database
 		$sql = "SELECT memberid FROM userprofile WHERE username = '$myusername' AND password = '$mypassword'";
 
+		// Queries the database
 		$result = mysqli_query( $conn, $sql );
 
+		//
 		$row = mysqli_fetch_array( $result, MYSQLI_ASSOC );
 
 		$active = $row[ 'active' ];
@@ -37,7 +42,7 @@
 			header("Location: userlist.php");
 			exit();
 		} else {
-			$error = "Your credentials is invalid, register first.";
+			$error = "Credential pair does not match records.";
 		}
 	}
 	?>
@@ -71,7 +76,7 @@
 			</div>
 		</form>
 		<div class="col-xs-12">
-			<?php if(isset($error)) { echo $error;} ?>
+			<?php if(isset($error)) { echo $error;} // Prints login error message ?>
 		</div>
 	</div>
 

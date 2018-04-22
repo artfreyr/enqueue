@@ -4,17 +4,23 @@
 <meta charset="UTF-8">
 <title>Watch This Shit</title>
 
-<?php include 'src/templates/resources/externalscripts.php'; ?>
+<?php 
+	// Includes externalscripts.php with common CSS and JS scripts for every page
+	include 'src/templates/resources/externalscripts.php'; 
+?>
 </head>
 
 <body>
-<?php include 'src/templates/resources/header.php'; ?>
+<?php 
+	// Includes common site wide header template
+	include 'src/templates/resources/header.php'; 
+?>
 
 <?php
-//For debugging purposes
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+	//For debugging purposes
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 ?>
 
 <!-- Introductory Paragraph -->
@@ -26,13 +32,16 @@ error_reporting(E_ALL);
   </div>
 </section>
 
-<!-- Adding movies -->
+<!-- User movies scroller -->
 <div>
   <h1 class="col-xs-10 col-sm-10 col-centered index-subheader">What others have recently added...</h1>
 </div>
 
 <!-- Displaying results -->
 
-<?php include 'src/templates/resources/footer.php'; ?>
+<?php 
+	// Includes common site wide footer template
+	include 'src/templates/resources/footer.php'; 
+?>
 </body>
 </html>

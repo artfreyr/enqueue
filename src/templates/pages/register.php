@@ -13,12 +13,22 @@
 	<?php include '../resources/header.php'; ?>
 
 	<?php
+	// If browser has existing session, direct user to their list
+	if(isset($_SESSION['login_user'])){
+		header("Location: userlist.php");
+	}
+	
+	// On browser POST request, submit registration form
 	if ( $_SERVER[ "REQUEST_METHOD" ] == "POST" ) {
 
 		$myusername = mysqli_real_escape_string( $conn, $_POST[ 'username' ] );
 		$mypassword = mysqli_real_escape_string( $conn, $_POST[ 'password' ] );
+		$myemail = mysqli_real_escape_string( $conn, $_POST[ 'email' ] );
 
-		$sql = "SELECT memberid FROM userprofile WHERE username = '$myusername' AND password = '$mypassword'";
+		
+		
+		// Following lines of code determine if there is a matching username in the database
+		$sql = "SELECT memberid FROM userprofile WHERE username = '$myusername'";
 
 		$result = mysqli_query( $conn, $sql );
 
@@ -28,11 +38,28 @@
 
 		$count = mysqli_num_rows( $result );
 
+		// If username exists then return error
 		if ( $count == 1 ) {
-			$_SESSION[ 'login_user' ] = $myusername;
-			
+			$returnmessage = "This username has been taken";
 		} else {
-			$error = "Your credentials is invalid, register first.";
+			// Else insert user details into database
+			if ($myemail == NULL) {
+				$sql = "INSERT INTO userprofile (username, password, email) VALUES ('$myusername', '$mypassword', NULL)";
+				
+				createuser($conn, $sql);
+			} else {
+				$sql = "INSERT INTO userprofile (username, password, email) VALUES ('$myusername', '$mypassword', '$myemail')";
+				
+				createuser($conn, $sql);
+			}
+		}
+	}
+	
+	// Function createuser to prevent duplicate code and insert new user
+	function createuser($conn, $incomingsql) {
+		if (mysqli_query($conn, $incomingsql)){
+			global $returnmessage;
+			$returnmessage = "User created successfully";
 		}
 	}
 	?>
@@ -49,14 +76,14 @@
 			<div class="col-xs-10 col-sm-8 col-lg-5 container">
 				<div class="form-group">
 					<div>
-						<input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="Username" name="username">
+						<input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="Username*" name="username">
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-10 col-sm-8 col-lg-5 container">
 				<div class="form-group">
 					<div>
-						<input type="password" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="Password" name="password">
+						<input type="password" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="Password*" name="password">
 					</div>
 				</div>
 			</div>
@@ -72,7 +99,7 @@
 			</div>
 		</form>
 		<div class="col-xs-12">
-			<?php if(isset($error)) { echo $error;} ?>
+			<?php if(isset($returnmessage)) { echo $returnmessage;} ?>
 		</div>
 	</div>
 
