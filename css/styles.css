@@ -1,0 +1,134 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* HTML body formatting */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+/* Extra navbar formatting */
+.navbar-text {
+  font-style: italic;
+}
+
+.index-header-centered {
+  padding-bottom: 50px;
+  font-size: 90px;
+}
+
+.other-header-centered {
+  padding-bottom: 50px;
+  font-size: 70px;
+	max-width: 70%;
+}
+
+.introductory {
+	margin-top:140px;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+	text-align: center;
+}
+
+.index-subheader {
+	margin-top: 60px;
+	margin-bottom: 30px;
+}
+
+.dropdown-toggle, .nav-link > a {
+	font-style: italic;
+}
+
+.subtitle-responsive-text {
+	max-width: 70%;
+	font-size: 21px;
+}
+
+.subtitle-responsive-text > p {
+	font-size: 21px;
+}
+
+.poster-alignment {
+	position:static;
+	padding-top: 5px;
+}
+
+.poster-styling {
+	width: 100px; 
+	height: 150px;
+	border-radius: 5px;
+}
+
+
+
+/* Search Styling */
+.searchbar-child-centered {
+	width:90%;
+	max-width: 800px;
+}
+
+.searchbar-centered {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+
+
+.list-centered {
+  float: none;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 180px;
+	width:90%;
+	max-width: 800px;
+}
+
+/* Regist form styling */
+.regist-form {
+	padding-top: 50px;
+}
+
+.button-spacing {
+	margin-top: 10px;
+}
+
+/* Footer styling */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  line-height: 50px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+  font-style: italic;
+  text-align: center;
+  font-size: 10px;
+}
+
+.tmdb-logo {
+	width: 130px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 18px;
+}
+
+.search-dropdown-loading {
+	padding-left: 370px;
+	padding-top: 40px;
+	padding-bottom: 50px;
+}
+
+
