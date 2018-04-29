@@ -8,7 +8,14 @@
 	// Includes externalscripts.php with common CSS and JS scripts for every page
 	include 'src/templates/resources/externalscripts.php'; 
 ?>
+
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick/slick/slick-theme.css"/>
 </head>
+
+				
 
 <body>
 <?php 
@@ -17,10 +24,27 @@
 ?>
 
 <?php
-	//For debugging purposes
+	// For debugging purposes
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
+	
+	// To populate homepage carousel
+	// Query database for array of recently added movies
+	$recentquery = "SELECT * FROM appdatastore WHERE datapoint = 1";
+	$recentquery_dbreturn = mysqli_query($conn, $recentquery);
+	
+	$row = mysqli_fetch_array( $recentquery_dbreturn, MYSQLI_ASSOC );
+	
+	$recentquery_array = unserialize($row['appdata']);
+	
+	// Poster code variable
+	$outputposters = "";
+	
+	foreach ($recentquery_array as $key=>$value) {
+		$outputposters = $outputposters . "<div><img class='index-poster' src=https://image.tmdb.org/t/p/w500/$recentquery_array[$key]></div>";
+	}
+	
 ?>
 
 <!-- Introductory Paragraph -->
@@ -33,8 +57,14 @@
 </section>
 
 <!-- User movies scroller -->
-<div>
+<div class="poster-carousel-formatting">
   <h1 class="col-xs-10 col-sm-10 col-centered index-subheader">What others have recently added...</h1>
+  <div class="slick-list draggable">
+  	<div class="poster-carousel slick-track">
+  	  <?php echo $outputposters; ?>
+    </div>
+  </div>
+  
 </div>
 
 <!-- Displaying results -->
@@ -43,5 +73,56 @@
 	// Includes common site wide footer template
 	include 'src/templates/resources/footer.php'; 
 ?>
+
+
+<!-- Scripts for Slick carousel-->
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick/slick/slick.min.js"></script>
+
+<script>
+	$(document).ready(function(){
+	  $('.poster-carousel').slick({
+	  dots: true,
+	  infinite: true,
+	  speed: 300,
+	  slidesToShow: 4,
+	  slidesToScroll: 3,
+	  autoplay: true,
+      autoplaySpeed: 2500,
+	  responsive: [
+		{
+		  breakpoint: 1024,
+		  settings: {
+			slidesToShow: 3,
+			slidesToScroll: 3,
+			infinite: true,
+			dots: true
+		  }
+		},
+		{
+		  breakpoint: 600,
+		  settings: {
+			slidesToShow: 2,
+			slidesToScroll: 2
+		  }
+		},
+		{
+		  breakpoint: 480,
+		  settings: {
+			slidesToShow: 1,
+			slidesToScroll: 1
+		  }
+		}
+		// You can unslick at a given breakpoint now by adding:
+		// settings: "unslick"
+		// instead of a settings object
+	  ]
+	  });
+	});
+</script>
+
+
 </body>
+
+
 </html>

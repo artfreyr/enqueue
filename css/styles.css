@@ -65,9 +65,12 @@ body {
 	width: 100px; 
 	height: 150px;
 	border-radius: 5px;
+	margin-left: 30px;
 }
 
-
+.description-gap { /* Not working */
+	margin-top: 40px;
+}
 
 /* Search Styling */
 .searchbar-child-centered {
@@ -92,6 +95,42 @@ body {
   margin-bottom: 180px;
 	width:90%;
 	max-width: 800px;
+}
+
+/* Empty list styling */
+.empty-list-centered {
+  float: none;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 180px;
+	width:90%;
+	max-width: 800px;
+}
+
+.empty-list{
+	padding: 110px 0 110px 0;
+}
+
+.empty-list > p {
+	text-align: center;
+	margin: 0;
+}
+
+.empty-list-title {
+	font-size: 38px;
+	
+}
+
+.empty-list-text {
+	
+}
+
+.empty-list-egg {
+	width: 74px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	margin-bottom: 12px;
 }
 
 /* Regist form styling */
@@ -130,5 +169,27 @@ body {
 	padding-top: 40px;
 	padding-bottom: 50px;
 }
+
+.index-poster {
+	width: 300px;
+}
+
+.poster-carousel-formatting {
+	padding: 0px 30px 390px 0px;
+	max-width: 98%;
+	margin:0 auto;
+}
+
+/* ES List styling */
+.es-list li { display: block; padding: 5px 10px; margin: 10px 0; }
+.es-list li.selected { background: #f3f3f3; }
+.es-list { max-height: 340px !important; }
+.es-list li {
+	margin-top: 5px;
+    margin-bottom: 5px;
+	font-size: 20px;
+}
+
+
 
 

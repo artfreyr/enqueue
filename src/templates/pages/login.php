@@ -20,29 +20,22 @@
 	
 	// On browser POST request, submit credentials
 	if ( $_SERVER[ "REQUEST_METHOD" ] == "POST" ) {
-		// Properly escapes SQL injection characters? And saves to variables
-		$myusername = mysqli_real_escape_string( $conn, $_POST[ 'username' ] );
-		$mypassword = mysqli_real_escape_string( $conn, $_POST[ 'password' ] );
-
-		// Forms SQL string to query database
-		$sql = "SELECT memberid FROM userprofile WHERE username = '$myusername' AND password = '$mypassword'";
-
-		// Queries the database
-		$result = mysqli_query( $conn, $sql );
-
-		//
-		$row = mysqli_fetch_array( $result, MYSQLI_ASSOC );
-
-		$active = $row[ 'active' ];
-
-		$count = mysqli_num_rows( $result );
-
-		if ( $count == 1 ) {
-			$_SESSION[ 'login_user' ] = $myusername;
+		// Prepare statatements for login form
+		$loginstatement = $conn->prepare("SELECT * FROM userprofile WHERE username = ? AND password = ?");
+		$loginstatement->bind_param("ss", $_POST['username'], $_POST['password']);
+		$loginstatement->execute();
+		$result = $loginstatement->get_result();
+		
+		if ($result->num_rows == 0){
+			$returnmessage = "Credential pair does not match records.";
+		} else {
+			// Obtain memberid from DB
+			$result_assocarr = $result->fetch_assoc();
+			
+			$_SESSION['login_user'] = $_POST['username'];
+			$_SESSION['memberid'] = $result_assocarr['memberid'];
 			header("Location: userlist.php");
 			exit();
-		} else {
-			$error = "Credential pair does not match records.";
 		}
 	}
 	?>
@@ -50,7 +43,7 @@
 	<!-- Introductory Paragraph -->
 	<section class="introductory-centered introductory">
 		<h1 class="col-xs-11 other-header-centered col-centered">Sign in with your WTS account</h1>
-		<p class="col-xs-10 subtitle-responsive-text col-centered"><strong>NOTICE:</strong> Passwords are not currently encrypted, please do not use secure password.</p>
+		<p class="col-xs-10 subtitle-responsive-text col-centered"><strong>NOTICE:</strong> Passwords are not hashed, please do not use secure password.</p>
 	</section>
 
 	<!-- Respective forms -->
@@ -76,7 +69,7 @@
 			</div>
 		</form>
 		<div class="col-xs-12">
-			<?php if(isset($error)) { echo $error;} // Prints login error message ?>
+			<?php if(isset($returnmessage)) { echo $returnmessage;} // Prints login error message ?>
 		</div>
 	</div>
 
