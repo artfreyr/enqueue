@@ -187,6 +187,24 @@ body {
 	margin-right: auto;
 }
 
+.activity-item {
+	font-size: 16px;
+}
+
+.activity-item i {
+	float: left;
+	margin-top: 4px;
+	font-size: 16px;
+}
+
+div.activity {
+	margin-left: 28px;
+}
+
+div.activity-item {
+	padding: 7px 12px;
+}
+
 /* ES List styling */
 .es-list li { display: block; padding: 5px 10px; margin: 10px 0; }
 .es-list li.selected { background: #f3f3f3; }

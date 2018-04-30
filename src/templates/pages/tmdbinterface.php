@@ -44,9 +44,8 @@
 	if(isset($_POST['addtolist']) && !empty($_POST['addtolist'])) {
 		$idtoadd = mysqli_real_escape_string($conn, $_POST['addtolist']);
 		$memberid = $_SESSION['memberid'];
-		$willthiswork = addtolist($conn, $idtoadd, $tmdbapi, $memberid);
 		
-		echo $willthiswork;
+		echo addtolist($conn, $idtoadd, $tmdbapi, $memberid);
 	}
 
 	function addtolist($conn, $movieid, $tmdbapi, $memberid){
@@ -104,6 +103,13 @@
 			
 			$obtainexisting_assocarray = json_decode($obtainexisting_currplanning['planning'], true);
 			
+			for ($i = 0 ; $i < count($obtainexisting_assocarray); $i++) {
+				$movieexistsinlist = $obtainexisting_assocarray[$i]['movieID'] == $movieid;
+				if ($movieexistsinlist){
+					return json_encode($movieexistsinlist);
+				}
+			}
+			
 			// Push new movie into store
 			array_push($obtainexisting_assocarray, $moviedataarray);
 			
@@ -118,7 +124,7 @@
 				return mysqli_error($conn);
 			} else {
 				$tests = addtorecent($poster, $conn);
-				return $tests;
+				return json_encode(false);
 			}
 		}
 	}

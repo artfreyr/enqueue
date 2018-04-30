@@ -112,6 +112,10 @@
 <link href="../../../scripts/noty/themes/mint.css" rel="stylesheet">
 <script src="../../../scripts/noty/noty.min.js" type="text/javascript"></script>
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+
+
 <script>
 	
 </script>
@@ -191,7 +195,7 @@
 			new Noty({
 				theme: 'mint',
 				type: 'warning',
-				text: 'Please wait while the movie is added to your list',
+				text: '<div class="activity-item"><i class="far fa-clock"></i><div class="activity">Please wait while the movie is added to your list.</div> </div>',
 				layout: 'topRight',
 				open: 'animated bounceInRight',
 				close: 'animated bounceOutRight',
@@ -206,21 +210,35 @@
 					url: 'tmdbinterface.php',
 					data: {addtolist: userselection},
 					type: 'post',
-					//dataType: 'json',
+					dataType: 'json',
 					success: function(output2){
 						console.log("The server returned" + output2);
 						
-						new Noty({
-							theme: 'mint',
-							type: 'success',
-							text: 'Movie added successfully, refreshing page',
-							timeout: 2000,
-							open: 'animated bounceInRight',
-							close: 'animated bounceOutRight',
-							progressBar: true
-						}).on('onClose' , function() {
-							parent.location.reload(true);
-						}).show();
+						if (output2 != true) {
+							new Noty({
+								theme: 'mint',
+								type: 'success',
+								text: '<div class="activity-item"><i class="fas fa-check"></i><div class="activity">The movie was added successfully, refreshing page.</div> </div>',
+								timeout: 2000,
+								open: 'animated bounceInRight',
+								close: 'animated bounceOutRight',
+								progressBar: true
+							}).on('onClose' , function() {
+								parent.location.reload(true);
+							}).show();
+						} else {
+							new Noty({
+								theme: 'mint',
+								type: 'error',
+								text: '<div class="activity-item"><i class="fas fa-exclamation-triangle"></i></i><div class="activity">You have already added this movie to your list!</div> </div>',
+								timeout: 5000,
+								open: 'animated bounceInRight',
+								close: 'animated bounceOutRight',
+								progressBar: true
+							}).show();
+						}
+						
+						
 					}
 				});
 		});
