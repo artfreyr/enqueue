@@ -107,6 +107,15 @@
 
 <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
 
+<!-- Plugin for noty -->
+<link href="../../../scripts/noty/noty.css" rel="stylesheet">
+<link href="../../../scripts/noty/themes/mint.css" rel="stylesheet">
+<script src="../../../scripts/noty/noty.min.js" type="text/javascript"></script>
+
+<script>
+	
+</script>
+
 <script type="text/javascript">
 	$( document ).ready( function () {
 		$( "#header-list" ).addClass( "active" );
@@ -178,6 +187,21 @@
 			var userselection = li.val();
 			console.log("The user clicked " + userselection);
 			
+			// Notification to add
+			new Noty({
+				theme: 'mint',
+				type: 'warning',
+				text: 'Please wait while the movie is added to your list',
+				layout: 'topRight',
+				open: 'animated bounceInRight',
+				close: 'animated bounceOutRight',
+				timeout: 3000,
+				closeWith: ['click'],
+				progressBar: true
+			}).show();
+			
+			
+			
 			$.ajax({ 
 					url: 'tmdbinterface.php',
 					data: {addtolist: userselection},
@@ -186,9 +210,23 @@
 					success: function(output2){
 						console.log("The server returned" + output2);
 						
+						new Noty({
+							theme: 'mint',
+							type: 'success',
+							text: 'Movie added successfully, refreshing page',
+							timeout: 2000,
+							open: 'animated bounceInRight',
+							close: 'animated bounceOutRight',
+							progressBar: true
+						}).on('onClose' , function() {
+							parent.location.reload(true);
+						}).show();
 					}
 				});
 		});
+		
+		var notyAddSuccess = 
+		
 		
 		function appendtolist(jsonreceived) {
 			

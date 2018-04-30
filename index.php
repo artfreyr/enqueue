@@ -59,7 +59,7 @@
 <!-- User movies scroller -->
 <div class="poster-carousel-formatting">
   <h1 class="col-xs-10 col-sm-10 col-centered index-subheader">What others have recently added...</h1>
-  <div class="slick-list draggable">
+  <div class="slick-list draggable center-posters">
   	<div class="poster-carousel slick-track">
   	  <?php echo $outputposters; ?>
     </div>
@@ -89,6 +89,9 @@
 	  slidesToScroll: 3,
 	  autoplay: true,
       autoplaySpeed: 2500,
+	  centerMode: true,
+      centerPadding: '40px',
+	  arrows: true,
 	  responsive: [
 		{
 		  breakpoint: 1024,
