@@ -89,8 +89,8 @@
 			if (!$initiallisting->execute()) {
 				return mysqli_error($conn);
 			} else {
-				return addtorecent($poster, $conn);
-				//return json_encode($moviedataarray);
+				addtorecent($poster, $conn);
+				return json_encode(false);
 			}
 			
 		} else {

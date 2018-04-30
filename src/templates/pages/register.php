@@ -26,7 +26,7 @@
 		$myemail = mysqli_real_escape_string( $conn, $_POST[ 'email' ] );
 		
 		// Check to see if username already exists in DB
-		$registcheck = "SELECT memberid FROM userprofile WHERE username = ?";
+		$registcheck = $conn->prepare("SELECT memberid FROM userprofile WHERE username = ?");
 		$registcheck->bind_param("s", $_POST['username']);
 		$registcheck->execute();
 		$duperesult = $registcheck->get_result();
@@ -34,24 +34,22 @@
 		if ($duperesult->num_rows > 0) { // Return error string that username is taken
 			$returnmessage = "This username has been taken";
 		} else if ("" == trim($_POST['username']) || "" == trim($_POST['password'])) { // Check if Username and Password fields are empty
-			$returnmessage = $conn->prepare("Username or password field cannot be empty");
+			$returnmessage = "Username or password field cannot be empty";
 		} else { // Insert registration data into DB
 			if ("" == trim($_POST['email'])) { // If user did not provide email
-				$registstatement = $conn->prepare("INSERT INTO userprofile (username, password, email) VALUES (?, ?, ?)");
-				$registstatement->bind_param("sss", $_POST['username'], $_POST['password'], NULL);
-				$succstatus = $registstatement->execute();
+				$registstatement = $conn->prepare("INSERT INTO userprofile (username, password) VALUES (?, ?)");
+				$registstatement->bind_param("ss", $_POST['username'], $_POST['password']);
 				
 				// Initialise supplementary tables after successful user creation
-				if ($succstatus != false) {
+				if ($registstatement->execute()) {
 					$returnmessage = initialisetables($conn, $_POST['username']);;
 				}	
 			} else { // If user provides email
 				$registstatement = $conn->prepare("INSERT INTO userprofile (username, password, email) VALUES (?, ?, ?)");
 				$registstatement->bind_param("sss", $_POST['username'], $_POST['password'], $_POST['email']);
-				$registstatement->execute();
 				
 				// Initialise supplementary tables after successful user creation
-				if ($succstatus != false) {
+				if ($registstatement->execute()) {
 					$returnmessage = initialisetables($conn, $_POST['username']);;
 				}
 			}
@@ -59,24 +57,21 @@
 	}
 	
 	// Function to initialise other tables
-	function intialisetables($conn, $uname) {
+	function initialisetables($conn, $uname) {
 		// Query memberid from DB first
-		$memberidstatement = $conn->prepare("SELECT * FROM userprofile WHERE username = ?");
+		$memberidstatement = $conn->prepare("SELECT memberid FROM userprofile WHERE username = ?");
 		$memberidstatement->bind_param("s", $uname);
+		$memberidstatement->execute();
 		$result = $memberidstatement->get_result();
+		$result_assocarr = $result->fetch_assoc();
+		$newid = $result_assocarr['memberid'];
 		
-		// Obtain ID and use it on the new tables
-		if ($memberidstatement->execute() == FALSE || $result->num_rows == 0){
-			return "Unacceptable input may have been detected";
-		} else {
-			$row = $result->fetch_assoc();
-			$newmemberid = $row['memberid'];
-			$initialisesql = "INSERT INTO usermovielist (memberid) VALUES ($newmemberid)";
-			
-			mysqli_query($conn, $initialisesql);
-			
-			return "User created successfully, you may now login.";
-		}
+		$initialisesql = $conn->prepare("INSERT INTO usermovielist (memberid) VALUES (?)");
+		$initialisesql->bind_param("i", $newid);
+		$initialisesql->execute();
+		
+		return "User created successfully, you may now login.";
+
 	}
 	?>
 
