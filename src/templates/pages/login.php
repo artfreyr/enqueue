@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-lg btn-primary" type="submit" value="submit">Login</button>
+				<button type="submit" class="btn btn-lg btn-primary" value="submit">Login</button>
 				<button type="button" class="btn btn-secondary btn-lg" onclick="window.location.href = 'register.php';">Register</button>
 			</div>
 		</form>

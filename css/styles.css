@@ -36,6 +36,7 @@ body {
   float: none;
   margin: 0 auto;
 	text-align: center;
+	color
 }
 
 .index-subheader {
@@ -66,6 +67,7 @@ body {
 	height: 150px;
 	border-radius: 5px;
 	margin-left: 30px;
+	margin-bottom: 15px;
 }
 
 .description-gap { /* Not working */

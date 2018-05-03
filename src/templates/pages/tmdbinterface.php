@@ -58,13 +58,14 @@
 		$actors = obtain_actors($movieid, $tmdbapi);
 		$yearreleased = $obj['release_date'];
 		$poster = substr($obj['poster_path'], 1);
+		$currtime = date('d-m-Y H:i:s');
 		
 		$moviedataarray = array("movieID" => $movieid,
 							"overview" => $overview,
 							"title" => $title,
 							"actors" => $actors,
 							"year_released" => $yearreleased,
-							//"date_added" => NULL,
+							"date_added" => $currtime,
 							"poster" => $poster);
 		
 		// Are there existing values?
@@ -80,7 +81,7 @@
 			$completeplanningarray = array($moviedataarray);
 			
 			// Write first movie to DB
-			$planningjson = json_encode($completeplanningarray, JSON_FORCE_OBJECT);
+			$planningjson = json_encode($completeplanningarray);
 			
 			// Prepared statement for SQL insert
 			$initiallisting = $conn->prepare("UPDATE usermovielist SET planning=? WHERE memberid = ?");
@@ -90,7 +91,7 @@
 				return mysqli_error($conn);
 			} else {
 				addtorecent($poster, $conn);
-				return json_encode(false);
+				return json_encode($moviedataarray);
 			}
 			
 		} else {
@@ -123,8 +124,8 @@
 			if (!$subsequentlisting->execute()) {
 				return mysqli_error($conn);
 			} else {
-				$tests = addtorecent($poster, $conn);
-				return json_encode(false);
+				addtorecent($poster, $conn);
+				return json_encode($moviedataarray);
 			}
 		}
 	}
@@ -188,10 +189,8 @@
 				}
 			}
 			
-			if (count($arrayofposters) == 20) {
-				// Insert into rand posit TODO
-				
-				$arrayofposters[0] = $postercode;
+			if (count($arrayofposters) == 30) {
+				$arrayofposters[mt_rand(0, 29)] = $postercode;
 			} else {
 				array_push($arrayofposters, $postercode);
 			}

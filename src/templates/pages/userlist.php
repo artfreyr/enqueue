@@ -31,11 +31,11 @@
 	$watchlistoutput = "";
 	
 	if ($planninglistarray['planning'] == NULL) {
-		$watchlistoutput = "<div class='list-group-item flex-column'><div class='empty-list'>
+		$watchlistoutput = "<div><div class='list-group-item flex-column' id='empty-list'><div class='empty-list'>
 								<img class='empty-list-egg' src='../../../img/lucky-egg.svg' />
 								<p class='empty-list-title'>There are no movies in your list</p>
 								<p class='empty-list-text'>List zero you need to ask your friends to intro you to some movies.</p>
-							</div></div>";
+							</div></div></div>";
 	} else {
 		// Get planning JSON
 		$obtainjson_sql = "SELECT * FROM usermovielist WHERE memberid = $currentmemberid";
@@ -54,6 +54,27 @@
 			$currdesc = $obtainjson_jsonarray[$i]['overview'];
 			$curryear = substr($obtainjson_jsonarray[$i]['year_released'],0 , 4);
 			$curractors = $obtainjson_jsonarray[$i]['actors'];
+			$start_date = new DateTime($obtainjson_jsonarray[$i]['date_added']);
+			$since_start = $start_date->diff(new DateTime(date('d-m-Y H:i:s')));
+			
+			$hourselapsed = $since_start-> h;
+			$minselapsed = $since_start->i;
+			$secselapsed = $since_start->s;
+			
+			$timediff = "";
+			
+			if ($hourselapsed > 23) {
+				$timediff = $since_start->d . ' days';
+			} else if ($hourselapsed > 0) {
+				$timediff = $since_start->h . ' hours';
+			} else if ($minselapsed > 0) {
+				$timediff = $since_start->i . ' hours';
+			} else if ($secselapsed < 61) {
+				$timediff = $since_start->s . ' seconds';
+			}
+			
+			
+			$timediff1 = $since_start->i . ' mins';
 			
 			$watchlistoutput = $watchlistoutput . "<a href='#' class='list-group-item list-group-item-action flex-column align-items-start'>
 				<div class='d-flex w-100 justify-content-between'>
@@ -63,7 +84,7 @@
 						<small class='description-gap'>Starring: $curractors</small>
 						<br><small>Year Released: $curryear</small>
 					</div>
-					<small style='text-align: right;'>3 days ago
+					<small style='text-align: right;'>$timediff
 					<div class='poster-alignment'>
 						<img class='poster-styling' src='$currposter'>
 					</div>
@@ -212,20 +233,25 @@
 					type: 'post',
 					dataType: 'json',
 					success: function(output2){
-						console.log("The server returned" + output2);
+						console.log("The server returned: " + output2);
+						appendtolist(output2);
 						
 						if (output2 != true) {
 							new Noty({
 								theme: 'mint',
 								type: 'success',
-								text: '<div class="activity-item"><i class="fas fa-check"></i><div class="activity">The movie was added successfully, refreshing page.</div> </div>',
-								timeout: 2000,
+								text: '<div class="activity-item"><i class="fas fa-check"></i><div class="activity">The movie was added successfully.</div> </div>',
+								timeout: 3000,
 								open: 'animated bounceInRight',
 								close: 'animated bounceOutRight',
 								progressBar: true
 							}).on('onClose' , function() {
-								parent.location.reload(true);
+								//parent.location.reload(true);
+								
 							}).show();
+							
+							appendtolist();
+							
 						} else {
 							new Noty({
 								theme: 'mint',
@@ -243,11 +269,32 @@
 				});
 		});
 		
-		var notyAddSuccess = 
-		
-		
-		function appendtolist(jsonreceived) {
+		function appendtolist(jsondata) {
+			if(('#empty-list').length != 0) {
+				$('#empty-list').parent().remove();
+				
+			};
 			
+			var appendhtml = "<a href='#' class='list-group-item list-group-item-action flex-column align-items-start'>";
+			
+			appendhtml += "<div class='d-flex w-100 justify-content-between'>";
+			appendhtml += "<div class='mb-1'>";
+			appendhtml += "<h5>" + jsondata['title'] + "</h5>";
+			appendhtml += "<p>" + jsondata['overview'] + "</p>";
+			appendhtml += "<small class='description-gap'>Starring: " + jsondata['actors'] + "</small>";
+			appendhtml += "<br><small>Year Released: " + jsondata['year_released'].substring(0, 4) + "</small>";
+			appendhtml += "</div>";
+			appendhtml += "<small style='text-align: right;'>a moment ago";	
+			appendhtml += "<div class='poster-alignment'>";
+			appendhtml += "<img class='poster-styling' src='https://image.tmdb.org/t/p/w300/" + jsondata['poster'] + "'>";
+			appendhtml += "</div>";
+			appendhtml += "</small>";
+			appendhtml += "</div>";
+			appendhtml += "</a>";
+
+			$(".list-group").prepend(
+				$(appendhtml).hide().fadeIn(1000)
+			);
 		}
 		
 		
