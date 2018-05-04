@@ -211,4 +211,48 @@
 		//return mysqli_error($conn);
 	}
 
+
+	// Removing an item from watchlist
+	if(isset($_POST['removefromlist']) && !empty($_POST['removefromlist'])) {
+		$idtoremove = mysqli_real_escape_string($conn, $_POST['removefromlist']);
+		$memberid = $_SESSION['memberid'];
+		
+		echo removefromlist($conn, $idtoremove, $memberid);
+	}
+
+	function removefromlist($conn, $idtoremove, $memberid){
+		$removeplanning = $conn->prepare("SELECT * FROM usermovielist WHERE memberid = ?");
+		$removeplanning->bind_param("i", $memberid);
+		$removeplanning->execute();
+		$result = $removeplanning->get_result();
+		
+		$planning_assocarray = $result->fetch_assoc();
+		
+		$arrayformat = json_decode($planning_assocarray['planning'], true);
+		
+		for ($i = 0 ; $i < count($arrayformat); $i++) {
+			$movieexistsinlist = $arrayformat[$i]['movieID'] == $idtoremove;
+			if ($movieexistsinlist){
+				array_splice($arrayformat, $i, 1);
+				
+				$jsonformat = json_encode($arrayformat);
+				
+				if (count($arrayformat) == 0) {
+					$jsonformat = NULL;	
+				}
+				
+				$removemovie = $conn->prepare("UPDATE usermovielist SET planning = ? WHERE memberid = ?");
+				$removemovie->bind_param("si", $jsonformat, $memberid);
+				
+				if ($removemovie->execute()){
+					return json_encode(true);
+				} else {
+					return json_encode(false);
+				}
+			}
+		}
+		
+		return json_encode(false);
+	}
+
 ?>

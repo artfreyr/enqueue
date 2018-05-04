@@ -49,6 +49,7 @@
 		
 		for ($i = 0; $i < count($obtainjson_jsonarray); $i++){
 			
+			$currid = $obtainjson_jsonarray[$i]['movieID'];
 			$currtitle = $obtainjson_jsonarray[$i]['title'];
 			$currposter = 'https://image.tmdb.org/t/p/w300/' . $obtainjson_jsonarray[$i]['poster'];
 			$currdesc = $obtainjson_jsonarray[$i]['overview'];
@@ -64,19 +65,19 @@
 			$timediff = "";
 			
 			if ($hourselapsed > 23) {
-				$timediff = $since_start->d . ' days';
+				$timediff = $since_start->d . ' days ago';
 			} else if ($hourselapsed > 0) {
-				$timediff = $since_start->h . ' hours';
+				$timediff = $since_start->h . ' hours ago';
 			} else if ($minselapsed > 0) {
-				$timediff = $since_start->i . ' hours';
+				$timediff = $since_start->i . ' hours ago';
 			} else if ($secselapsed < 61) {
-				$timediff = $since_start->s . ' seconds';
+				$timediff = $since_start->s . ' seconds ago';
 			}
 			
 			
 			$timediff1 = $since_start->i . ' mins';
 			
-			$watchlistoutput = $watchlistoutput . "<a href='#' class='list-group-item list-group-item-action flex-column align-items-start'>
+			$watchlistoutput = $watchlistoutput . "<a class='list-group-item list-group-item-action flex-column align-items-start user-item' id='$currid'>
 				<div class='d-flex w-100 justify-content-between'>
 					<div class='mb-1'>
 						<h5>$currtitle</h5>
@@ -275,7 +276,7 @@
 				
 			};
 			
-			var appendhtml = "<a href='#' class='list-group-item list-group-item-action flex-column align-items-start'>";
+			var appendhtml = "<a class='list-group-item list-group-item-action flex-column align-items-start' id='" + jsondata['movieID'] + "'>";
 			
 			appendhtml += "<div class='d-flex w-100 justify-content-between'>";
 			appendhtml += "<div class='mb-1'>";
@@ -297,7 +298,56 @@
 			);
 		}
 		
-		
+		$('.user-item').on('click', function(e) {
+			console.log(this.id);
+			new Noty({
+				theme: 'mint',
+				type: 'warning',
+				text: '<div class="activity-item"><i class="far fa-clock"></i><div class="activity">Please wait while the movie is removed.</div> </div>',
+				layout: 'topRight',
+				open: 'animated bounceInRight',
+				close: 'animated bounceOutRight',
+				timeout: 3000,
+				closeWith: ['click'],
+				progressBar: true
+			}).show();
+			
+			$(this).fadeOut(1000);
+			
+			$.ajax({
+				url: 'tmdbinterface.php',
+				data: {removefromlist: this.id},
+				type: 'post',
+				dataType: 'json',
+				success: function(output3){
+					console.log(output3);
+					if (output3){
+						new Noty({
+							theme: 'mint',
+							type: 'success',
+							text: '<div class="activity-item"><i class="fas fa-check"></i><div class="activity">The movie was removed successfully.</div> </div>',
+							timeout: 3000,
+							open: 'animated bounceInRight',
+							close: 'animated bounceOutRight',
+							progressBar: true
+						}).on('onClose' , function() {
+							//parent.location.reload(true);
+
+						}).show();
+					} else {
+						new Noty({
+							theme: 'mint',
+							type: 'error',
+							text: '<div class="activity-item"><i class="fas fa-exclamation-triangle"></i></i><div class="activity">We failed to remove the movie!</div> </div>',
+							timeout: 5000,
+							open: 'animated bounceInRight',
+							close: 'animated bounceOutRight',
+							progressBar: true
+						}).show();
+					}
+				}
+			});
+		});
 	});
 </script>
 
