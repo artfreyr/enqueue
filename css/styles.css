@@ -36,7 +36,6 @@ body {
   float: none;
   margin: 0 auto;
 	text-align: center;
-	color
 }
 
 .index-subheader {
@@ -171,23 +170,6 @@ body {
 	padding-bottom: 50px;
 }
 
-.index-poster {
-	width: 300px;
-}
-
-.poster-carousel-formatting {
-	padding: 0px 30px 390px 0px;
-}
-
-.center-posters {
-	position: relative;
-	top:0;
-	left: 0;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 .activity-item {
 	font-size: 16px;
 }
@@ -196,6 +178,22 @@ body {
 	float: left;
 	margin-top: 4px;
 	font-size: 16px;
+}
+
+.centering-carousel {
+	margin: 0 auto;
+    width: 80%;
+	padding: 0 60px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+}
+
+.poster-slides {
+	width: 95%;
+	max-width: 300px;
 }
 
 div.activity {
