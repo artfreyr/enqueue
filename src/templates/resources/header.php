@@ -27,6 +27,7 @@ if(isset($_SESSION['login_user'])) {
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav mr-auto">
+		<li class="nav-item" id="header-index"> <a class="nav-link" href="/index.php">Home</a> </li>
 			<li class="nav-item" id="header-list"> <a class="nav-link" href="/src/templates/pages/userlist.php">List</a> </li>
 			<li class="nav-item" id="header-about"> <a class="nav-link" href="/src/templates/pages/about.php">About</a> </li>
 		</ul>
