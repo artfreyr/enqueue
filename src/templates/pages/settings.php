@@ -1,8 +1,7 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>Watch This Shit</title>
+	<meta charset="UTF-8">Enqueue - Settings</title>
 
 	<?php include '../resources/externalscripts.php'; ?>
 </head>
@@ -22,7 +21,7 @@
 	<!-- Introductory Paragraph -->
 	<section class="introductory-centered introductory">
 		<h1 class="col-xs-11 other-header-centered col-centered">Settings</h1>
-		<p class="col-xs-10 col-sm-7 col-centered">Insert settings here</p>
+		<p class="col-xs-10 col-sm-7 col-centered">The settings page is a work in progress</p>
 	</section>
 
 	<!-- Settings list -->

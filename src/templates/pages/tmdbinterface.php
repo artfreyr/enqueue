@@ -20,9 +20,9 @@
 		// Parsing results into associative array
 		$obj = json_decode($moviedata, true);
 		
-		// The results we want: for each result returned by tMDB up to 6 results
+		// The results we want: for each result returned by tMDB up to 10 results
 		for ($i = 0; $i < count($obj['results']); $i++){
-			if ($i == 8) {
+			if ($i == 10) {
 				break;
 			}
 			

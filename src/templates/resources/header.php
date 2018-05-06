@@ -24,7 +24,7 @@ if(isset($_SESSION['login_user'])) {
 
 <html>
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button> <a class="navbar-brand" href="http://development.daniell.im">Watch This Shit</a>
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item" id="header-list"> <a class="nav-link" href="/src/templates/pages/userlist.php">List</a> </li>

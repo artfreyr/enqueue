@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Watch This Shit</title>
+	<title>Enqueue - Your List</title>
 
 	<?php include '../resources/externalscripts.php'; ?>
 
@@ -103,7 +103,7 @@
 	<section class="introductory-centered introductory">
 		<h1 class="col-xs-10 other-header-centered col-centered">There are way too many good movies out there</h1>
 		<p class="col-xs-10 subtitle-responsive-text col-centered">Your friends recommend you movies, you tell them you'd catch it when you get the free time. But then that free time comes and you simply have no idea what movie to watch.</p>
-		<p class="col-xs-10 subtitle-responsive-text col-centered" style="padding-top: 16px;">Add that movie to WTS now while it is fresh in your mind. Then when the time comes, clear it!</p>
+		<p class="col-xs-10 subtitle-responsive-text col-centered" style="padding-top: 16px;">Add that movie to Enqueue now while it is fresh in your mind. Then when the time comes, clear it!</p>
 	</section>
 
 	<!-- Movie search box -->
@@ -200,7 +200,7 @@
 						$.each(output, function(index, value){
 							$('#editable-select').editableSelect('add', function(){
 								$(this).val(output[index].id);
-								$(this).text(output[index].title);
+								$(this).text(output[index].title + ' (' + output[index].release_date.substring(0,4) + ')');
 							});
 						})
 					}

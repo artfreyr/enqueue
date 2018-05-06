@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Watch This Shit</title>
+	<title>Enqueue - Register</title>
 
 	<?php include '../resources/externalscripts.php'; ?>
 </head>
@@ -77,7 +77,7 @@
 
 	<!-- Introductory Paragraph -->
 	<section class="introductory-centered introductory">
-		<h1 class="col-xs-11 other-header-centered col-centered">Create a WTS account</h1>
+		<h1 class="col-xs-11 other-header-centered col-centered">Create an Enqueue account</h1>
 		<p class="col-xs-10 subtitle-responsive-text col-centered"><strong>NOTICE:</strong> Passwords are not hashed, please do not use secure password.</p>
 	</section>
 
