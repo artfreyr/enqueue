@@ -62,7 +62,7 @@
 			$minselapsed = $since_start->i;
 			$secselapsed = $since_start->s;
 			
-			$timediff = "";
+			$timediff = $since_start;
 			
 			if ($hourselapsed > 23) {
 				$timediff = $since_start->d . ' days ago';
@@ -130,9 +130,9 @@
 <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
 
 <!-- Plugin for noty -->
-<link href="../../../scripts/noty/noty.css" rel="stylesheet">
-<link href="../../../scripts/noty/themes/mint.css" rel="stylesheet">
-<script src="../../../scripts/noty/noty.min.js" type="text/javascript"></script>
+<link href="/scripts/noty/noty.css" rel="stylesheet">
+<link href="/scripts/noty/themes/mint.css" rel="stylesheet">
+<script src="/scripts/noty/noty.min.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
@@ -297,58 +297,8 @@
 			);
 		}
 		
-		$(document).on('click',  '.user-item', function(){
+		$(document).on('click', '.user-item', function(){
 		  new Noty({
-				theme: 'mint',
-				type: 'warning',
-				text: '<div class="activity-item"><i class="far fa-clock"></i><div class="activity">Please wait while the movie is removed.</div> </div>',
-				layout: 'topRight',
-				open: 'animated bounceInRight',
-				close: 'animated bounceOutRight',
-				timeout: 3000,
-				closeWith: ['click'],
-				progressBar: true
-			}).show();
-			
-			$(this).fadeOut(1000);
-			
-			$.ajax({
-				url: 'tmdbinterface.php',
-				data: {removefromlist: this.id},
-				type: 'post',
-				dataType: 'json',
-				success: function(output3){
-					console.log(output3);
-					if (output3){
-						new Noty({
-							theme: 'mint',
-							type: 'success',
-							text: '<div class="activity-item"><i class="fas fa-check"></i><div class="activity">The movie was removed successfully.</div> </div>',
-							timeout: 3000,
-							open: 'animated bounceInRight',
-							close: 'animated bounceOutRight',
-							progressBar: true
-						}).on('onClose' , function() {
-							//parent.location.reload(true);
-
-						}).show();
-					} else {
-						new Noty({
-							theme: 'mint',
-							type: 'error',
-							text: '<div class="activity-item"><i class="fas fa-exclamation-triangle"></i></i><div class="activity">We failed to remove the movie!</div> </div>',
-							timeout: 5000,
-							open: 'animated bounceInRight',
-							close: 'animated bounceOutRight',
-							progressBar: true
-						}).show();
-					}
-				}
-			});
-		});
-		
-		$('.user-item').on('click', function(e) {
-			new Noty({
 				theme: 'mint',
 				type: 'warning',
 				text: '<div class="activity-item"><i class="far fa-clock"></i><div class="activity">Please wait while the movie is removed.</div> </div>',

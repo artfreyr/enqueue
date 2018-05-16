@@ -15,9 +15,9 @@ if (isset($_GET['logout'])){
 
 if(isset($_SESSION['login_user'])) {
 	$loginlabel = "<a class='nav-link dropdown-toggle dropdown-display' href='#signuplogin' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" .  "Welcome back, " . $_SESSION['login_user'] . "!" . " </a>";
-	$dropdowncontents = "<div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'><a class='dropdown-item' href='http://development.daniell.im/src/templates/pages/settings.php'>Settings</a><a class='dropdown-item' href='header.php?logout=true'>Sign Out</a></div>";
+	$dropdowncontents = "<div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'><a class='dropdown-item' href='/src/templates/pages/settings.php'>Settings</a><a class='dropdown-item' href='header.php?logout=true'>Sign Out</a></div>";
 } else {
-	$loginlabel = "<a class='nav-link' id='navbarDropdownMenuLink' href='http://development.daniell.im/src/templates/pages/login.php'>Login</a>";
+	$loginlabel = "<a class='nav-link' id='navbarDropdownMenuLink' href='/src/templates/pages/login.php'>Login</a>";
 	unset($dropdowncontents);
 }
 ?>
